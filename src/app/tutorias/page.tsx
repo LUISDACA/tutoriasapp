@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { tutorias as initialTutorias } from "@/data/tutorias";
 import { BookOpen, User, Clock, CheckCircle, XCircle, ArrowLeft } from "lucide-react";
@@ -18,7 +18,7 @@ export default function TutoriasPage() {
   const [tutorias, setTutorias] = useState<Tutoria[]>([]);
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
-  const loadTutorias = () => {
+  const loadTutorias = useCallback (()=> {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       router.push("/login");
@@ -41,7 +41,7 @@ export default function TutoriasPage() {
       localStorage.setItem("tutorias", JSON.stringify(initialTutorias));
       setTutorias(initialTutorias);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     loadTutorias();
