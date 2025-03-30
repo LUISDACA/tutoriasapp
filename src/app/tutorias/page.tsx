@@ -18,7 +18,7 @@ export default function TutoriasPage() {
   const [tutorias, setTutorias] = useState<Tutoria[]>([]);
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
-  const loadTutorias = useCallback (()=> {
+  const loadTutorias = useCallback(() => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       router.push("/login");
@@ -85,16 +85,18 @@ export default function TutoriasPage() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
+      <img src="/logo.png" alt="Logo" className="w-24 h-24 mb-6" /> {/* Logo agregado aquí */}
+
       <button
         onClick={() => router.push("/dashboard")}
-        className="mb-4 flex items-center bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition"
+        className="mb-4 flex items-center bg-teal-500 text-white px-5 py-2 rounded-lg hover:bg-teal-600 transition"
       >
         <ArrowLeft className="w-5 h-5 mr-2" /> Volver
       </button>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-        <BookOpen className="w-8 h-8 mr-2 text-blue-600" /> Lista de Tutorías
+      <h1 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+        <BookOpen className="w-8 h-8 mr-2 text-teal-500" /> Lista de Tutorías
       </h1>
 
       <div className="w-full max-w-lg space-y-4">
@@ -103,10 +105,9 @@ export default function TutoriasPage() {
         ))}
       </div>
 
-      {}
       <button
         onClick={() => router.push("/dashboard")}
-        className="mb-4 flex items-center bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition"
+        className="mb-4 flex items-center bg-teal-500 text-white px-5 py-2 rounded-lg hover:bg-teal-600 transition"
       >
         <ArrowLeft className="w-5 h-5 mr-2" /> Volver
       </button>
@@ -123,7 +124,7 @@ const TutoriaCard = ({
 }) => (
   <div className="bg-white p-5 rounded-lg shadow-lg border border-gray-200">
     <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-      <BookOpen className="w-5 h-5 mr-2 text-blue-500" /> {tutoria.materia}
+      <BookOpen className="w-5 h-5 mr-2 text-teal-500" /> {tutoria.materia}
     </h2>
     <p className="text-gray-600 flex items-center">
       <User className="w-5 h-5 mr-2 text-gray-500" /> Tutor: {tutoria.tutor}
@@ -135,7 +136,7 @@ const TutoriaCard = ({
       onClick={() => onSolicitar(tutoria.id)}
       className={`mt-3 flex items-center justify-center w-full py-2 rounded-lg text-white font-medium transition ${
         tutoria.estado === "Disponible"
-          ? "bg-blue-500 hover:bg-blue-600"
+          ? "bg-teal-500 hover:bg-teal-600"
           : "bg-gray-400 cursor-not-allowed"
       }`}
       disabled={tutoria.estado !== "Disponible"}

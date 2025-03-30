@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock } from "lucide-react";
+import Image from "next/image"; 
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,7 +41,6 @@ export default function LoginPage() {
       }
 
       localStorage.setItem("user", JSON.stringify(data.user));
-
       router.push(data.user.email === "admin@example.com" ? "/admin" : "/dashboard");
     } catch (error) {
       console.error("Error en el servidor", error);
@@ -49,48 +49,62 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-96 text-center transform transition duration-300 hover:scale-105">
-        <h1 className="text-3xl font-extrabold text-gray-900">Iniciar Sesión</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-teal-400 to-pink-500">
+      <div className="bg-white p-10 rounded-3xl shadow-xl w-96 text-center transform transition duration-300 hover:scale-105">
+        
+        {}
+        <div className="mb-6">
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            width={150} 
+            height={150} 
+            className="mx-auto"
+          />
+        </div>
+
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-4">Iniciar Sesión</h1>
         {error && <p className="text-red-500 mt-2">{error}</p>}
-        <form onSubmit={handleLogin} className="mt-6 space-y-4">
-          {/* Campo de correo electrónico */}
+        <form onSubmit={handleLogin} className="mt-6 space-y-6">
+          {}
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700" />
             <input
               type="email"
               placeholder="Correo electrónico"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-gray-700 p-4 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300"
               required
             />
           </div>
 
-          {/* Campo de contraseña */}
+          {}
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700" />
             <input
               type="password"
               placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-gray-700 p-4 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300"
               required
             />
           </div>
 
-          {/* Botón de inicio de sesión */}
+          {}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transition duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-teal-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-700 hover:shadow-lg transition duration-300 flex items-center justify-center gap-2"
           >
             Iniciar Sesión
           </button>
         </form>
+
+        {}
         <button
           onClick={() => router.push("/")}
-          className="mt-4 w-full bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-600 hover:shadow-lg transition duration-300"
+          className="mt-4 w-full bg-pink-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-pink-700 hover:shadow-lg transition duration-300"
         >
           Volver a la Página Principal
         </button>
@@ -98,3 +112,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+

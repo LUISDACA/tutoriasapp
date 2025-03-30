@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { tutorias as initialTutorias } from "@/data/tutorias";
+import Image from "next/image";  // Asegúrate de que tienes Image importado
 
 interface Tutoria {
   id: number;
@@ -83,16 +84,21 @@ export default function GestionarTutoriasPage() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-6">
-      {/* Botón de Volver (arriba) */}
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
+      {}
+      <div className="flex justify-center mb-6">
+        <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
+      </div>
+
+      {}
       <button
         onClick={() => router.push("/admin")}
-        className="mb-4 bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
+        className="mb-4 bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition"
       >
         ⬅ Volver
       </button>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">📋 Gestionar Tutorías</h1>
+      <h1 className="text-3xl font-bold text-white mb-6">📋 Gestionar Tutorías</h1>
 
       <div className="w-full max-w-lg space-y-4">
         {tutorias.map((tutoria) => (
@@ -120,17 +126,17 @@ export default function GestionarTutoriasPage() {
         ))}
       </div>
 
-      {/* Modal de edición */}
+      {}
       {editingTutoria && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-teal-400 to-pink-600 p-6">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">✏️ Editar Tutoría</h2>
+            <h2 className="text-gray-700 font-bold mb-4">✏️ Editar Tutoría</h2>
             <input
               type="text"
               name="materia"
               value={editingTutoria.materia}
               onChange={handleEditChange}
-              className="w-full p-2 border rounded-lg mb-2"
+              className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Materia"
             />
             <input
@@ -138,7 +144,7 @@ export default function GestionarTutoriasPage() {
               name="tutor"
               value={editingTutoria.tutor}
               onChange={handleEditChange}
-              className="w-full p-2 border rounded-lg mb-2"
+              className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Tutor"
             />
             <input
@@ -146,12 +152,12 @@ export default function GestionarTutoriasPage() {
               name="horario"
               value={editingTutoria.horario}
               onChange={handleEditChange}
-              className="w-full p-2 border rounded-lg mb-2"
+              className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Horario"
             />
 
             <div className="flex justify-end space-x-2">
-              <button onClick={handleSaveEdit} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+              <button onClick={handleSaveEdit} className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
                 💾 Guardar
               </button>
               <button onClick={() => setEditingTutoria(null)} className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">
@@ -162,15 +168,15 @@ export default function GestionarTutoriasPage() {
         </div>
       )}
 
-      {/* Formulario para agregar nueva tutoría */}
+      {}
       <div className="bg-white p-6 rounded-lg shadow-lg mt-6 w-full max-w-lg">
-        <h2 className="text-xl font-bold mb-4">➕ Agregar Nueva Tutoría</h2>
+        <h2 className="text-gray-700 font-bold mb-4">➕ Agregar Nueva Tutoría</h2>
         <input
           type="text"
           name="materia"
           value={newTutoria.materia}
           onChange={handleNewChange}
-          className="w-full p-2 border rounded-lg mb-2"
+          className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
           placeholder="Materia"
         />
         <input
@@ -178,7 +184,7 @@ export default function GestionarTutoriasPage() {
           name="tutor"
           value={newTutoria.tutor}
           onChange={handleNewChange}
-          className="w-full p-2 border rounded-lg mb-2"
+          className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
           placeholder="Tutor"
         />
         <input
@@ -186,8 +192,9 @@ export default function GestionarTutoriasPage() {
           name="horario"
           value={newTutoria.horario}
           onChange={handleNewChange}
-          className="w-full p-2 border rounded-lg mb-2"
+          className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
           placeholder="Horario"
+          
         />
         <button
           onClick={handleAddTutoria}
@@ -199,11 +206,10 @@ export default function GestionarTutoriasPage() {
 
       <button
         onClick={() => router.push("/admin")}
-        className="mt-6 bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
+        className="mt-6 bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition"
       >
         ⬅ Volver
       </button>
     </div>
   );
 }
-

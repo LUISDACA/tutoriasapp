@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-blue-700 text-white">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
       <div className="p-10 bg-white shadow-2xl rounded-2xl max-w-md text-center transform transition duration-300 hover:scale-105">
         <div className="flex justify-center mb-4">
           <Image src="/logo.png" alt="Tutorías" width={80} height={80} className="animate-pulse" />

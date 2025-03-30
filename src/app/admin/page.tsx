@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaChalkboardTeacher, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import Image from "next/image";  // Asegúrate de que tienes Image importado
 
 export default function AdminPage() {
   const router = useRouter();
@@ -28,8 +29,13 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center">
+        {/* Logo en la parte superior */}
+        <div className="flex justify-center mb-6">
+          <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
+        </div>
+
         <h1 className="text-3xl font-bold mb-4 text-gray-700">🔧 Panel de Administración</h1>
         {user && (
           <p className="text-gray-600 text-lg mb-6">
@@ -40,7 +46,7 @@ export default function AdminPage() {
         <div className="flex flex-col space-y-4">
           <button
             onClick={() => router.push("/gestionar-tutorias")}
-            className="flex items-center justify-center bg-blue-500 text-white px-5 py-3 rounded-xl hover:bg-blue-600 transition shadow-md"
+            className="flex items-center justify-center bg-teal-500 text-white px-5 py-3 rounded-xl hover:bg-teal-600 transition shadow-md"
           >
             <FaChalkboardTeacher className="mr-2" /> Gestionar Tutorías
           </button>

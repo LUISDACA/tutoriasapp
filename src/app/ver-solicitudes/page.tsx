@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image"; // Asegúrate de importar Image
 
 interface Solicitud {
   id: number;
@@ -43,9 +44,14 @@ export default function VerSolicitudesPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
+      {}
+      <div className="flex justify-center mb-6">
+        <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
+      </div>
+
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
-        <h1 className="text-2xl font-semibold mb-4 text-center">📋 Solicitudes de Tutorías</h1>
+        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800">📋 Solicitudes de Tutorías</h1>
         {solicitudes.length === 0 ? (
           <p className="text-gray-500 text-center">❌ No hay solicitudes registradas.</p>
         ) : (
