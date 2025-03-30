@@ -11,6 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       body = JSON.parse(req.body);
     } catch (error) {
+      console.error("Error al analizar JSON:", error);
       return res.status(400).json({ error: "Error al leer el JSON" });
     }
 
@@ -20,7 +21,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     // Buscar el usuario en el array
     const userIndex = users.findIndex((u) => u.email === email);
-    
+
     if (userIndex === -1) {
       console.log("❌ Usuario no encontrado");
       return res.status(404).json({ error: "Usuario no encontrado" });
@@ -43,4 +44,3 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(500).json({ error: "Error en el servidor" });
   }
 }
-
