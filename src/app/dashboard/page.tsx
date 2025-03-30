@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut, Edit, BookOpen, ListChecks, User } from "lucide-react";
 
@@ -14,14 +14,14 @@ export default function Dashboard() {
     address: string;
   } | null>(null);
 
-  const loadUser = () => {
+  const loadUser = useCallback (() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
       router.push("/login");
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     loadUser();

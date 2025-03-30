@@ -50,7 +50,7 @@ export default function TutoriasPage() {
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, [router]);
+  }, [loadTutorias]);
 
   const handleSolicitar = (id: number) => {
     if (!user) {
