@@ -43,6 +43,7 @@ export default function LoginPage() {
 
       router.push(data.user.email === "admin@example.com" ? "/admin" : "/dashboard");
     } catch (error) {
+      console.error("Error en el servidor", error);
       setError("Error en el servidor");
     }
   };

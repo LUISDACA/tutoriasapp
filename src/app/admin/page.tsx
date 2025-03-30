@@ -13,14 +13,14 @@ export default function AdminPage() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       if (parsedUser.role !== "admin") {
-        router.push("/dashboard"); // Si no es admin, lo redirige
+        router.push("/dashboard");
       } else {
         setUser(parsedUser);
       }
     } else {
-      router.push("/login"); // Si no hay usuario, lo manda a login
+      router.push("/login");
     }
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -63,4 +63,3 @@ export default function AdminPage() {
     </div>
   );
 }
-

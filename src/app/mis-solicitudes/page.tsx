@@ -37,7 +37,7 @@ export default function MisSolicitudesPage() {
         setTutorias([]);
       }
     }
-  }, []);
+  }, [router]);
 
   const cancelarTutoria = (id: number) => {
     if (!user) return;
@@ -49,7 +49,6 @@ export default function MisSolicitudesPage() {
     setTutorias(nuevasTutorias);
     localStorage.setItem(`tutoriasSolicitadas_${user.email}`, JSON.stringify(nuevasTutorias));
 
-    // Restaurar la tutoría en la lista general
     const storedDisponibles = localStorage.getItem("tutorias");
     const tutoriasDisponibles: Tutoria[] = storedDisponibles ? JSON.parse(storedDisponibles) : [];
 
@@ -65,7 +64,6 @@ export default function MisSolicitudesPage() {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      {/* Botón de volver al Dashboard arriba */}
       <button
         onClick={() => router.push("/dashboard")}
         className="mb-6 flex items-center bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition shadow-md"
@@ -108,7 +106,6 @@ export default function MisSolicitudesPage() {
         )}
       </div>
 
-      {/* Botón de volver al Dashboard abajo */}
       <button
         onClick={() => router.push("/dashboard")}
         className="mt-6 flex items-center bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition shadow-md"

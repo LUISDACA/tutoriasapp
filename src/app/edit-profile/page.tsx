@@ -31,9 +31,9 @@ export default function Profile() {
       setUser(parsedUser);
       setFormData(parsedUser);
     } else {
-      router.push("/login"); // Redirige si no hay usuario
+      router.push("/login");
     }
-  }, []);
+  }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -103,7 +103,6 @@ export default function Profile() {
   );
 }
 
-// Componente reutilizable para campos de entrada
 const InputField = ({
   label,
   name,
@@ -128,7 +127,6 @@ const InputField = ({
   </div>
 );
 
-// Componente reutilizable para mostrar la información del perfil
 const ProfileInfo = ({ label, value }: { label: string; value: string }) => (
   <p className="flex items-center">
     <span className="font-semibold mr-2">{label}:</span> {value || "No especificado"}

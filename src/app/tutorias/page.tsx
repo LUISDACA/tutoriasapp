@@ -18,7 +18,6 @@ export default function TutoriasPage() {
   const [tutorias, setTutorias] = useState<Tutoria[]>([]);
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
-  // Cargar usuario y tutorías desde localStorage
   const loadTutorias = () => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
@@ -51,7 +50,7 @@ export default function TutoriasPage() {
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  }, [router]);
 
   const handleSolicitar = (id: number) => {
     if (!user) {
@@ -59,16 +58,13 @@ export default function TutoriasPage() {
       return;
     }
 
-    // Obtener la tutoría seleccionada
     const updatedTutorias = tutorias.map((tutoria) =>
       tutoria.id === id ? { ...tutoria, estado: "Ocupado" } : tutoria
     );
 
-    // Actualizar el estado global y en localStorage
     setTutorias(updatedTutorias);
     localStorage.setItem("tutorias", JSON.stringify(updatedTutorias));
 
-    // Crear la solicitud con el usuario incluido
     const nuevaSolicitud = {
       id,
       nombre: user.name || "Usuario Desconocido",
@@ -78,16 +74,13 @@ export default function TutoriasPage() {
       hora: tutorias.find((t) => t.id === id)?.horario || "Desconocido",
     };
 
-    // Guardar la solicitud en localStorage
     const userKey = `tutoriasSolicitadas_${user.email}`;
     const storedSolicitudes = localStorage.getItem(userKey);
     const solicitudes = storedSolicitudes ? JSON.parse(storedSolicitudes) : [];
     localStorage.setItem(userKey, JSON.stringify([...solicitudes, nuevaSolicitud]));
 
-    // Disparar evento para actualizar otros componentes
     window.dispatchEvent(new Event("storage"));
 
-    // Redirigir al usuario
     router.push("/mis-solicitudes");
   };
 
@@ -121,7 +114,6 @@ export default function TutoriasPage() {
   );
 }
 
-// Componente reutilizable para tarjetas de tutorías
 const TutoriaCard = ({
   tutoria,
   onSolicitar,

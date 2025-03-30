@@ -14,19 +14,18 @@ export default function Dashboard() {
     address: string;
   } | null>(null);
 
-  // Función para cargar los datos actualizados del usuario
   const loadUser = () => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      router.push("/login"); // Redirige si no hay usuario
+      router.push("/login");
     }
   };
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
