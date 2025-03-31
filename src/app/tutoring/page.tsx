@@ -60,7 +60,7 @@ export default function TutoringsPage() {
     }
 
     const updatedTutorings = tutorings.map((tutoring) =>
-      tutoring.id === id ? { ...tutoring, status: "Occupied" } : tutoring
+      tutoring.id === id ? { ...tutoring, status: "Ocupado" } : tutoring
     );
 
     setTutorings(updatedTutorings);
@@ -138,14 +138,14 @@ const TutoringCard = ({
     <button
       onClick={() => onRequest(tutoring.id)}
       className={`mt-3 flex items-center justify-center w-full py-2 rounded-lg text-white font-medium transition ${
-        tutoring.status === "Available"
+        tutoring.status === "Disponible"
           ? "bg-teal-500 hover:bg-teal-600"
           : "bg-gray-400 cursor-not-allowed"
       }`}
-      disabled={tutoring.status !== "Available"}
-      aria-label={tutoring.status === "Available" ? "Request tutoring" : "Tutoring not available"}
+      disabled={tutoring.status !== "Disponible"}
+      aria-label={tutoring.status === "Disponible" ? "Request tutoring" : "Tutoring not available"}
     >
-      {tutoring.status === "Available" ? (
+      {tutoring.status === "Disponible" ? (
         <>
           <CheckCircle className="w-5 h-5 mr-2" /> Solicitar
         </>

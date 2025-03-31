@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { tutorings as initialTutorings } from "@/data/tutorings";
 import Image from "next/image";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { Clock } from "lucide-react";
+
+registerLocale("es", es);
 
 interface Tutoring {
   id: number;
@@ -26,7 +29,7 @@ export default function ManageTutoringsPage() {
     subject: "",
     teacher: "",
     schedule: "",
-    status: "Available",
+    status: "Disponible",
   });
   
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -40,15 +43,25 @@ export default function ManageTutoringsPage() {
       localStorage.setItem("tutorings", JSON.stringify(initialTutorings));
       setTutorings(initialTutorings);
     }
-  }, [newTutoring]);
+  }, []); 
+  
+  const formatTimeWithAMPM = (timeString: string) => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; 
+    return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  };
   
   useEffect(() => {
     if (selectedDate) {
-      const formattedDate = format(selectedDate, "MMM d, yyyy");
-      const scheduleString = `${formattedDate} at ${selectedTime}`;
-      setNewTutoring({ ...newTutoring, schedule: scheduleString });
+      const formattedDate = format(selectedDate, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es });
+      const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      const formattedTime = formatTimeWithAMPM(selectedTime);
+      const scheduleString = `${capitalizedDate}, ${formattedTime}`;
+      
+      setNewTutoring(prev => ({...prev, schedule: scheduleString}));
     }
-  }, [selectedDate, selectedTime, newTutoring]);
+  }, [selectedDate, selectedTime,]);
 
   const handleDelete = (id: number) => {
     const updatedTutorings = tutorings.filter((tutoring) => tutoring.id !== id);
@@ -60,15 +73,22 @@ export default function ManageTutoringsPage() {
     setEditingTutoring(tutoring);
     
     try {
-      const scheduleParts = tutoring.schedule.split(" at ");
-      if (scheduleParts.length === 2) {
-        // Esto es una simplificación para parsear la fecha - podría necesitar lógica adicional
-        const datePart = new Date(scheduleParts[0]);
-        const timePart = scheduleParts[1];
+      const dateTimePattern = /(.+),\s+(\d+:\d+\s*(?:AM|PM)?)/i;
+      const match = tutoring.schedule.match(dateTimePattern);
+      
+      if (match) {
+        const datePart = match[1];
+        const timePart = match[2];
         
-        if (!isNaN(datePart.getTime())) {
-          setSelectedDate(datePart);
-          setSelectedTime(timePart);
+        const dateParsed = new Date(datePart);
+        
+        if (!isNaN(dateParsed.getTime())) {
+          setSelectedDate(dateParsed);
+          
+          const timeMatch = timePart.match(/(\d+):(\d+)/);
+          if (timeMatch) {
+            setSelectedTime(`${timeMatch[1].padStart(2, '0')}:${timeMatch[2].padStart(2, '0')}`);
+          }
         }
       }
     } catch (e) {
@@ -95,8 +115,12 @@ export default function ManageTutoringsPage() {
   
   const handleEditDateChange = (date: Date | null) => {
     if (!editingTutoring || !date) return;
-    const formattedDate = format(date, "MMM d, yyyy");
-    const scheduleString = `${formattedDate} at ${selectedTime}`;
+    
+    const formattedDate = format(date, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es });
+    const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    const formattedTime = formatTimeWithAMPM(selectedTime);
+    const scheduleString = `${capitalizedDate}, ${formattedTime}`;
+    
     setSelectedDate(date);
     setEditingTutoring({ ...editingTutoring, schedule: scheduleString });
   };
@@ -105,8 +129,12 @@ export default function ManageTutoringsPage() {
     if (!editingTutoring || !selectedDate) return;
     const time = e.target.value;
     setSelectedTime(time);
-    const formattedDate = format(selectedDate, "MMM d, yyyy");
-    const scheduleString = `${formattedDate} at ${time}`;
+    
+    const formattedDate = format(selectedDate, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es });
+    const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    const formattedTime = formatTimeWithAMPM(time);
+    const scheduleString = `${capitalizedDate}, ${formattedTime}`;
+    
     setEditingTutoring({ ...editingTutoring, schedule: scheduleString });
   };
 
@@ -120,7 +148,7 @@ export default function ManageTutoringsPage() {
 
   const handleAddTutoring = () => {
     if (!newTutoring.subject || !newTutoring.teacher || !newTutoring.schedule) {
-      alert("Please complete all fields.");
+      alert("Por favor complete todos los campos.");
       return;
     }
 
@@ -132,19 +160,17 @@ export default function ManageTutoringsPage() {
     setTutorings(updatedTutorings);
     localStorage.setItem("tutorings", JSON.stringify(updatedTutorings));
 
-    setNewTutoring({ id: 0, subject: "", teacher: "", schedule: "", status: "Available" });
+    setNewTutoring({ id: 0, subject: "", teacher: "", schedule: "", status: "Disponible" });
     setSelectedDate(null);
     setSelectedTime("12:00");
   };
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600 p-6">
-      {}
       <div className="flex justify-center mb-6">
         <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
       </div>
 
-      {}
       <button
         onClick={() => router.push("/admin")}
         className="mb-4 bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition"
@@ -152,7 +178,7 @@ export default function ManageTutoringsPage() {
         ⬅ Volver
       </button>
 
-      <h1 className="text-3xl font-bold text-white mb-6">📋 Manage Tutoring Sessions</h1>
+      <h1 className="text-3xl font-bold text-white mb-6">📋 Gestionar Sesiones de Tutoría</h1>
 
       <div className="w-full max-w-lg space-y-4">
         {tutorings.map((tutoring) => (
@@ -180,14 +206,13 @@ export default function ManageTutoringsPage() {
         ))}
       </div>
 
-      {}
       {editingTutoring && (
         <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-teal-400 to-pink-600 p-6 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-gray-700 font-bold mb-4">✏️ Editar Tutoría</h2>
             <input
               type="text"
-              name="Subject"
+              name="subject"
               value={editingTutoring.subject}
               onChange={handleEditChange}
               className="w-full p-2 border rounded-lg mb-2 bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -208,8 +233,9 @@ export default function ManageTutoringsPage() {
                 selected={selectedDate}
                 onChange={handleEditDateChange}
                 className="w-full p-2 border rounded-lg bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                dateFormat="MMM d, yyyy"
+                dateFormat="EEEE, d 'de' MMMM 'de' yyyy"
                 placeholderText="Seleccionar una fecha"
+                locale="es"
               />
             </div>
             
@@ -227,7 +253,7 @@ export default function ManageTutoringsPage() {
             </div>
             
             <p className="text-sm text-gray-500 mb-4">
-              Scheduled for: {editingTutoring.schedule}
+              Programado para: {editingTutoring.schedule}
             </p>
 
             <div className="flex justify-end space-x-2">
@@ -242,7 +268,6 @@ export default function ManageTutoringsPage() {
         </div>
       )}
 
-      {}
       <div className="bg-white p-6 rounded-lg shadow-lg mt-6 w-full max-w-lg">
         <h2 className="text-gray-700 font-bold mb-4">➕ Agregar Nueva Tutoría</h2>
         <input
@@ -268,8 +293,9 @@ export default function ManageTutoringsPage() {
             selected={selectedDate}
             onChange={setSelectedDate}
             className="w-full p-2 border rounded-lg bg-transparent text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            dateFormat="MMM d, yyyy"
+            dateFormat="EEEE, d 'de' MMMM 'de' yyyy"
             placeholderText="Seleccionar una fecha"
+            locale="es"
           />
         </div>
         
@@ -288,7 +314,7 @@ export default function ManageTutoringsPage() {
         
         {selectedDate && (
           <p className="text-sm text-gray-500 mb-4">
-            Scheduled for: {newTutoring.schedule}
+            Programado para: {newTutoring.schedule}
           </p>
         )}
         
