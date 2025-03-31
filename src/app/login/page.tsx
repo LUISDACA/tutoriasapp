@@ -36,37 +36,29 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError("Correo o contraseña incorrectos");
+        setError("Incorrect email or password");
         return;
       }
 
       localStorage.setItem("user", JSON.stringify(data.user));
       router.push(data.user.email === "admin@example.com" ? "/admin" : "/dashboard");
     } catch (error) {
-      console.error("Error en el servidor", error);
-      setError("Error en el servidor");
+      console.error("Server error", error);
+      setError("Server error");
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-teal-400 to-pink-500">
-      <div className="bg-white p-10 rounded-3xl shadow-xl w-96 text-center transform transition duration-300 hover:scale-105">
-        
-        {}
-        <div className="mb-6">
-          <Image 
-            src="/logo.png" 
-            alt="Logo" 
-            width={150} 
-            height={150} 
-            className="mx-auto"
-          />
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600">
+          <div className="bg-white p-10 rounded-lg shadow-xl w-96 text-center transform transition duration-300 hover:scale-105">
+            <div className="flex justify-center mb-6">
+              <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
+            </div>
 
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">Iniciar Sesión</h1>
         {error && <p className="text-red-500 mt-2">{error}</p>}
         <form onSubmit={handleLogin} className="mt-6 space-y-6">
-          {}
+          
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700" />
             <input
@@ -79,7 +71,6 @@ export default function LoginPage() {
             />
           </div>
 
-          {}
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700" />
             <input
@@ -92,16 +83,14 @@ export default function LoginPage() {
             />
           </div>
 
-          {}
           <button
             type="submit"
-            className="w-full bg-teal-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-700 hover:shadow-lg transition duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-teal-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-600 hover:shadow-lg transition duration-300 flex items-center justify-center gap-2"
           >
             Iniciar Sesión
           </button>
         </form>
 
-        {}
         <button
           onClick={() => router.push("/")}
           className="mt-4 w-full bg-pink-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-pink-700 hover:shadow-lg transition duration-300"
@@ -112,5 +101,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-

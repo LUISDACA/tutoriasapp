@@ -17,7 +17,7 @@ export default function Home() {
         </p>
         <button
           onClick={() => router.push("/login")}
-          className="mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transition duration-300 w-full"
+          className="mt-6 px-8 py-3 bg-teal-500 text-white font-semibold rounded-lg shadow-md hover:bg-teal-600 hover:shadow-lg transition duration-300 w-full"
         >
           Inicia sesión
         </button>

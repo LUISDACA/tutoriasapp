@@ -5,28 +5,28 @@ import { useRouter } from "next/navigation";
 import { LogOut, Edit, BookOpen, ListChecks, User } from "lucide-react";
 import Image from "next/image"; 
 
-export default function Dashboard() {
+export default function UserDashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<{
+  const [currentUser, setCurrentUser] = useState<{
     email: string;
     name: string;
     lastName: string;
   } | null>(null);
 
-  const loadUser = useCallback(() => {
+  const fetchUser = useCallback(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setCurrentUser(JSON.parse(storedUser));
     } else {
       router.push("/login");
     }
   }, [router]);
 
   useEffect(() => {
-    loadUser();
-  }, [loadUser]);
+    fetchUser();
+  }, [fetchUser]);
 
-  const handleLogout = () => {
+  const logout = () => {
     localStorage.removeItem("user");
     router.push("/login");
   };
@@ -34,7 +34,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-400 to-pink-600">
       <div className="bg-white p-10 rounded-3xl shadow-xl w-96 text-center transform transition duration-300 hover:scale-105">
-        {/* Logo en la parte superior */}
+        {}
         <div className="flex justify-center mb-6">
           <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
         </div>
@@ -44,10 +44,10 @@ export default function Dashboard() {
           <h1 className="text-4xl font-extrabold text-gray-900">Bienvenido</h1>
         </div>
 
-        {user && (
+        {currentUser && (
           <div className="mt-4 text-gray-700 text-lg">
-            <p>👤 <span className="font-semibold">{user.name} {user.lastName}</span></p>
-            <p>📩 {user.email}</p>
+            <p>👤 <span className="font-semibold">{currentUser.name} {currentUser.lastName}</span></p>
+            <p>📩 {currentUser.email}</p>
           </div>
         )}
 
@@ -60,22 +60,22 @@ export default function Dashboard() {
           </button>
 
           <button
-            onClick={() => router.push("/tutorias")}
+            onClick={() => router.push("/tutoring")}
             className="flex items-center justify-center bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300"
           >
             <BookOpen className="w-5 h-5 mr-2" /> Ver Tutorías Disponibles
           </button>
 
           <button
-            onClick={() => router.push("/mis-solicitudes")}
+            onClick={() => router.push("/my-requests")}
             className="flex items-center justify-center bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition duration-300"
           >
             <ListChecks className="w-5 h-5 mr-2" /> Mis Solicitudes
           </button>
 
           <button
-            onClick={handleLogout}
-            className="flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
+            onClick={logout}
+            className="flex items-center justify-center bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition duration-300"
           >
             <LogOut className="w-5 h-5 mr-2" /> Cerrar Sesión
           </button>

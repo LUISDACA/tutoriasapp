@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { users } from "@/data/users"; // Asegúrate de que la ruta es correcta
+import { users } from "@/data/users"; 
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -19,7 +19,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const { email, name, lastName, phone, address } = body;
 
-    // Buscar el usuario en el array
     const userIndex = users.findIndex((u) => u.email === email);
 
     if (userIndex === -1) {
@@ -27,7 +26,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    // Actualizar datos
     users[userIndex] = {
       ...users[userIndex],
       name,
